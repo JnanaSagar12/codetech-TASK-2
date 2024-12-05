@@ -1,0 +1,81 @@
+
+
+def add_student(grades):
+    """Add a student and their grades."""
+    name = input("Enter the student's name: ").strip()
+    num_subjects = int(input(f"How many subjects for {name}? "))
+    grades[name] = {}
+    for i in range(num_subjects):
+        subject = input(f"Enter the name of subject {i+1}: ").strip()
+        while True:
+            try:
+                grade = float(input(f"Enter the grade for {subject} (0-100): "))
+                if 0 <= grade <= 100:
+                    grades[name][subject] = grade
+                    break
+                else:
+                    print("Grade must be between 0 and 100.")
+            except ValueError:
+                print("Invalid input! Please enter a numeric grade.")
+
+def view_grades(grades):
+    """View grades for all students."""
+    if not grades:
+        print("No student data available.")
+        return
+    for name, subjects in grades.items():
+        print(f"\n{name}'s Grades:")
+        for subject, grade in subjects.items():
+            print(f"  {subject}: {grade}")
+    print("\n")
+
+def calculate_average(grades):
+    """Calculate and display the average grade for a student."""
+    if not grades:
+        print("No student data available.")
+        return
+    name = input("Enter the student's name to calculate the average: ").strip()
+    if name in grades:
+        subjects = grades[name]
+        if subjects:
+            average = sum(subjects.values()) / len(subjects)
+            print(f"\n{name}'s Average Grade: {average:.2f}")
+            if average >= 90:
+                print("Grade: A (Excellent)")
+            elif average >= 75:
+                print("Grade: B (Good)")
+            elif average >= 50:
+                print("Grade: C (Average)")
+            else:
+                print("Grade: F (Fail)")
+        else:
+            print(f"{name} has no grades recorded.")
+    else:
+        print(f"Student '{name}' not found.")
+
+def main():
+    """Main function to run the grade tracker."""
+    grades = {}
+    while True:
+        print("\nStudent Grade Tracker")
+        print("1. Add Student and Grades")
+        print("2. View All Grades")
+        print("3. Calculate Average Grade")
+        print("4. Exit")
+        
+        choice = input("Enter your choice (1/2/3/4): ").strip()
+        
+        if choice == '1':
+            add_student(grades)
+        elif choice == '2':
+            view_grades(grades)
+        elif choice == '3':
+            calculate_average(grades)
+        elif choice == '4':
+            print("Exiting the program. Goodbye!")
+            break
+        else:
+            print("Invalid choice! Please select a valid option.")
+
+
+main()
